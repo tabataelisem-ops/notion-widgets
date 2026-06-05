@@ -4,356 +4,109 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Week Ahead</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
-    :root {
-      color-scheme: light;
-      --navy:    #5A7A88;
-      --seafoam: #84ACA4;
-      --gold:    #C4A858;
-      --linen:   #DDD8CC;
-      --fog:     #F0EDE4;
-      --dark:    #2C3E40;
-      --mid:     #6B8A8E;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--fog);
-      font-family: Georgia, 'Book Antiqua', Palatino, serif;
-      color: var(--dark);
-      padding: 28px 24px 24px;
-      min-height: 100vh;
-    }
-
-    /* ── HEADER ──────────────────────────────── */
-    .masthead {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-    .rule { height: 2px; background: var(--linen); margin-bottom: 16px; }
-    .rule-thin { height: 1px; background: var(--linen); margin-top: 16px; }
-
-    .vol-line {
-      font-family: 'Century Gothic', Futura, 'Trebuchet MS', sans-serif;
-      font-size: 8px;
-      font-weight: bold;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: var(--seafoam);
-      margin-bottom: 8px;
-    }
-
-    .masthead-title {
-      font-family: 'Century Gothic', Futura, 'Trebuchet MS', sans-serif;
-      font-size: 20px;
-      font-weight: bold;
-      letter-spacing: 0.42em;
-      text-transform: uppercase;
-      color: var(--navy);
-      margin-bottom: 6px;
-    }
-
-    .masthead-dates {
-      font-family: Georgia, serif;
-      font-style: italic;
-      font-size: 13px;
-      color: var(--mid);
-      letter-spacing: 0.03em;
-    }
-
-    /* ── GRID ────────────────────────────────── */
-    .week-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 10px;
-      align-items: start;
-    }
-
-    .day-col { display: flex; flex-direction: column; gap: 5px; }
-
-    .day-header {
-      text-align: center;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--linen);
-      margin-bottom: 2px;
-    }
-
-    .day-name {
-      font-family: 'Century Gothic', Futura, 'Trebuchet MS', sans-serif;
-      font-size: 8px;
-      font-weight: bold;
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
-      color: var(--navy);
-      margin-bottom: 3px;
-    }
-
-    .day-num {
-      font-family: Georgia, serif;
-      font-size: 22px;
-      line-height: 1;
-      color: var(--dark);
-    }
-
-    /* today accent */
-    .today .day-name { color: var(--gold); }
-    .today .day-num  { color: var(--gold); }
-    .today .day-header { border-bottom-color: var(--gold); }
-
-    /* ── EVENT CARDS ─────────────────────────── */
-    .event-card {
-      background: #fff;
-      border-left: 3px solid var(--seafoam);
-      padding: 5px 7px 6px;
-      border-radius: 1px;
-    }
-
-    .event-card.allday {
-      background: var(--linen);
-      border-left-color: var(--gold);
-    }
-
-    .event-card.personal { border-left-color: var(--navy); }
-
-    .event-time {
-      font-family: 'Century Gothic', Futura, 'Trebuchet MS', sans-serif;
-      font-size: 8px;
-      font-weight: bold;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--seafoam);
-      margin-bottom: 2px;
-    }
-
-    .event-card.personal .event-time { color: var(--navy); }
-    .event-card.allday .event-time   { color: var(--gold); }
-
-    .event-name {
-      font-family: Georgia, serif;
-      font-size: 11px;
-      line-height: 1.4;
-      color: var(--dark);
-    }
-
-    /* empty day dash */
-    .empty {
-      font-family: Georgia, serif;
-      font-style: italic;
-      font-size: 12px;
-      color: var(--linen);
-      text-align: center;
-      padding-top: 6px;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── FOOTER ──────────────────────────────── */
-    .footer {
-      text-align: center;
-      margin-top: 22px;
-      padding-top: 14px;
-      border-top: 1px solid var(--linen);
-    }
-    .footer-text {
-      font-family: 'Century Gothic', Futura, 'Trebuchet MS', sans-serif;
-      font-size: 7.5px;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--linen);
-    }
-
-    /* loading state */
-    .loading-state {
-      text-align: center;
-      padding: 40px 20px;
-      font-style: italic;
-      color: var(--seafoam);
-      font-size: 13px;
-    }
-
-    .error-state {
-      text-align: center;
-      padding: 20px;
-      font-style: italic;
-      color: var(--mid);
-      font-size: 12px;
-    }
+    :root { color-scheme:light; --navy:#5A7A88; --seafoam:#84ACA4; --gold:#C4A858; --linen:#DDD8CC; --fog:#F0EDE4; --dark:#2C3E40; --mid:#6B8A8E; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--fog); font-family:Georgia,'Book Antiqua',Palatino,serif; color:var(--dark); padding:28px 24px 24px; min-height:100vh; }
+    .masthead { text-align:center; margin-bottom:28px; }
+    .rule { height:2px; background:var(--linen); margin-bottom:16px; }
+    .rule-thin { height:1px; background:var(--linen); margin-top:16px; }
+    .vol-line { font-family:'Century Gothic',Futura,'Trebuchet MS',sans-serif; font-size:8px; font-weight:bold; letter-spacing:.45em; text-transform:uppercase; color:var(--seafoam); margin-bottom:8px; }
+    .masthead-title { font-family:'Century Gothic',Futura,'Trebuchet MS',sans-serif; font-size:20px; font-weight:bold; letter-spacing:.42em; text-transform:uppercase; color:var(--navy); margin-bottom:6px; }
+    .masthead-dates { font-family:Georgia,serif; font-style:italic; font-size:13px; color:var(--mid); letter-spacing:.03em; }
+    .signin-wrap { text-align:center; padding:40px 20px; }
+    .signin-label { font-family:'Century Gothic',Futura,'Trebuchet MS',sans-serif; font-size:9px; font-weight:bold; letter-spacing:.35em; text-transform:uppercase; color:var(--mid); margin-bottom:16px; }
+    .signin-btn { font-family:'Century Gothic',Futura,'Trebuchet MS',sans-serif; font-size:9px; font-weight:bold; letter-spacing:.3em; text-transform:uppercase; color:var(--fog); background:var(--navy); border:none; padding:10px 20px; cursor:pointer; border-radius:1px; }
+    .signin-btn:hover { background:var(--seafoam); }
+    .week-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:10px; align-items:start; }
+    .day-col { display:flex; flex-direction:column; gap:5px; }
+    .day-header { text-align:center; padding-bottom:10px; border-bottom:1px solid var(--linen); margin-bottom:2px; }
+    .day-name { font-family:'Century Gothic',Futura,'Trebuchet MS',sans-serif; font-size:8px; font-weight:bold; letter-spacing:.38em; text-transform:uppercase; color:var(--navy); margin-bottom:3px; }
+    .day-num { font-family:Georgia,serif; font-size:22px; line-height:1; color:var(--dark); }
+    .today .day-name,.today .day-num { color:var(--gold); }
+    .today .day-header { border-bottom-color:var(--gold); }
+    .event-card { background:#fff; border-left:3px solid var(--seafoam); padding:5px 7px 6px; border-radius:1px; }
+    .event-card.allday { background:var(--linen); border-left-color:var(--gold); }
+    .event-card.personal { border-left-color:var(--navy); }
+    .event-time { font-family:'Century Gothic',Futura,'Trebuchet MS',sans-serif; font-size:8px; font-weight:bold; letter-spacing:.18em; text-transform:uppercase; color:var(--seafoam); margin-bottom:2px; }
+    .event-card.personal .event-time { color:var(--navy); }
+    .event-card.allday .event-time { color:var(--gold); }
+    .event-name { font-family:Georgia,serif; font-size:11px; line-height:1.4; color:var(--dark); }
+    .empty { font-family:Georgia,serif; font-style:italic; font-size:12px; color:var(--linen); text-align:center; padding-top:6px; }
+    .footer { text-align:center; margin-top:22px; padding-top:14px; border-top:1px solid var(--linen); }
+    .footer-text { font-family:'Century Gothic',Futura,'Trebuchet MS',sans-serif; font-size:7.5px; letter-spacing:.35em; text-transform:uppercase; color:var(--linen); }
+    .loading-state { text-align:center; padding:40px 20px; font-style:italic; color:var(--seafoam); font-size:13px; }
   </style>
 </head>
 <body>
-
-  <div class="masthead">
-    <div class="rule"></div>
-    <div class="vol-line">Personal Calendar — Eastern Time</div>
-    <div class="masthead-title">The Week Ahead</div>
-    <div class="masthead-dates" id="dateRange">— loading —</div>
-    <div class="rule-thin"></div>
-  </div>
-
-  <div id="content">
-    <div class="loading-state">Consulting the calendar&hellip;</div>
-  </div>
-
-  <div class="footer">
-    <div class="footer-text" id="refreshedAt"></div>
-  </div>
-
+<div class="masthead">
+  <div class="rule"></div>
+  <div class="vol-line">Personal Calendar — Eastern Time</div>
+  <div class="masthead-title">The Week Ahead</div>
+  <div class="masthead-dates" id="dateRange">— loading —</div>
+  <div class="rule-thin"></div>
+</div>
+<div id="content"><div class="loading-state">Consulting the calendar…</div></div>
+<div class="footer"><div class="footer-text" id="refreshedAt"></div></div>
 <script>
-/* ── CONFIG ──────────────────────────────────────────────── */
-const CALS = [
-  { id: 'tabata.elise.m@gmail.com',                               label: 'personal' },
-  { id: 'family03500003850466473792@group.calendar.google.com',   label: 'family'   },
-];
-
-// Todoist-style routine tasks to suppress
-const MUTE = [
-  'medication', 'floss', 'pimsleur', 'vacuum', 'mop kitchen',
-  'mop wood', 'dust bedroom', 'water houseplants', 'wash bedding',
-  'sunday review'
-];
-
-/* ── HELPERS ─────────────────────────────────────────────── */
-const DAY_NAMES   = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-function startOfDay(d) {
-  const c = new Date(d); c.setHours(0,0,0,0); return c;
+const CLIENT_ID='834092971898-bkb0ccpufv4ddj90h98fuu2va82utlam.apps.googleusercontent.com';
+const SCOPES='https://www.googleapis.com/auth/calendar.readonly';
+const CALS=[{id:'tabata.elise.m@gmail.com',label:'personal'},{id:'family03500003850466473792@group.calendar.google.com',label:'family'}];
+const MUTE=['medication','floss','pimsleur','vacuum','mop kitchen','mop wood','dust bedroom','water houseplants','wash bedding','sunday review'];
+const DAY_NAMES=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const MONTH_NAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let tokenClient,accessToken=null;
+function sod(d){const c=new Date(d);c.setHours(0,0,0,0);return c;}
+function addD(d,n){const c=new Date(d);c.setDate(c.getDate()+n);return c;}
+function sameD(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
+function fmt(dt){if(!dt)return'All Day';const d=new Date(dt);let h=d.getHours(),m=d.getMinutes();const ap=h>=12?'PM':'AM';h=h%12||12;return h+(m?':'+String(m).padStart(2,'0'):'')+' '+ap;}
+function muted(s){return MUTE.some(k=>(s||'').toLowerCase().includes(k));}
+function strip(s){return(s||'').replace(/^[\p{Emoji}\s]+/u,'').trim();}
+async function fetchCal(id,t1,t2){
+  const url='https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(id)+'/events?timeMin='+encodeURIComponent(t1+'Z')+'&timeMax='+encodeURIComponent(t2+'Z')+'&orderBy=startTime&singleEvents=true&maxResults=50';
+  const r=await fetch(url,{headers:{Authorization:'Bearer '+accessToken}});
+  if(!r.ok)throw new Error(await r.text());
+  return(await r.json()).items||[];
 }
-
-function addDays(d, n) {
-  const c = new Date(d); c.setDate(c.getDate() + n); return c;
-}
-
-function sameDay(a, b) {
-  return a.getFullYear() === b.getFullYear() &&
-         a.getMonth()    === b.getMonth()    &&
-         a.getDate()     === b.getDate();
-}
-
-function fmtTime(dtStr) {
-  if (!dtStr) return 'All Day';
-  const d = new Date(dtStr);
-  let h = d.getHours(), m = d.getMinutes();
-  const ap = h >= 12 ? 'PM' : 'AM';
-  h = h % 12 || 12;
-  return `${h}${m ? ':' + String(m).padStart(2,'0') : ''} ${ap}`;
-}
-
-function isMuted(summary) {
-  const s = (summary || '').toLowerCase();
-  return MUTE.some(k => s.includes(k));
-}
-
-function stripEmoji(s) {
-  return (s || '').replace(/^[\p{Emoji}\s]+/u, '').trim();
-}
-
-/* ── MAIN ────────────────────────────────────────────────── */
-async function init() {
-  const today = startOfDay(new Date());
-  const days  = Array.from({ length: 7 }, (_, i) => addDays(today, i));
-
-  const startISO = days[0].toISOString().slice(0, 19);
-  const endISO   = addDays(days[6], 1).toISOString().slice(0, 19);
-
-  // Header date range
-  const d0 = days[0], d6 = days[6];
-  document.getElementById('dateRange').textContent =
-    `${MONTH_NAMES[d0.getMonth()]} ${d0.getDate()} – ${MONTH_NAMES[d6.getMonth()]} ${d6.getDate()}, ${d6.getFullYear()}`;
-
-  // Fetch from all calendars
-  let allEvents = [];
-  for (const cal of CALS) {
-    try {
-      const res = await window.cowork.callMcpTool(
-        'mcp__e75fbc37-82bd-4a03-9c3c-5b445a4e6426__list_events',
-        { calendarId: cal.id, startTime: startISO, endTime: endISO,
-          orderBy: 'startTime', pageSize: 50 }
-      );
-      const evs = (res.events || []).map(e => ({ ...e, _cal: cal.label }));
-      allEvents = allEvents.concat(evs);
-    } catch (err) {
-      console.warn('Calendar fetch failed:', cal.id, err);
-    }
-  }
-
-  // Filter muted items
-  allEvents = allEvents.filter(e => !isMuted(e.summary));
-
-  // Deduplicate by summary+day (personal & family may repeat)
-  const seen = new Set();
-  allEvents = allEvents.filter(e => {
-    const key = (e.summary || '') + '|' + (e.start?.date || e.start?.dateTime?.slice(0,10) || '');
-    if (seen.has(key)) return false;
-    seen.add(key); return true;
-  });
-
-  // Build grid
-  const grid = document.createElement('div');
-  grid.className = 'week-grid';
-
-  days.forEach(day => {
-    const col = document.createElement('div');
-    col.className = 'day-col' + (sameDay(day, today) ? ' today' : '');
-
-    col.innerHTML = `
-      <div class="day-header">
-        <div class="day-name">${DAY_NAMES[day.getDay()]}</div>
-        <div class="day-num">${day.getDate()}</div>
-      </div>`;
-
-    const dayEvs = allEvents
-      .filter(e => {
-        const raw = e.start?.dateTime || e.start?.date;
-        if (!raw) return false;
-        // All-day events store as YYYY-MM-DD; parse as local
-        const d = raw.length === 10
-          ? new Date(raw + 'T00:00:00')
-          : new Date(raw);
-        return sameDay(d, day);
-      })
-      .sort((a, b) => {
-        const aT = a.start?.dateTime || a.start?.date || '';
-        const bT = b.start?.dateTime || b.start?.date || '';
-        return aT.localeCompare(bT);
-      });
-
-    if (!dayEvs.length) {
-      col.innerHTML += `<div class="empty">—</div>`;
-    } else {
-      dayEvs.forEach(ev => {
-        const isAllDay = !ev.start?.dateTime;
-        const card = document.createElement('div');
-        card.className = [
-          'event-card',
-          isAllDay      ? 'allday'   : '',
-          ev._cal === 'personal' ? 'personal' : 'family'
-        ].filter(Boolean).join(' ');
-
-        card.innerHTML = `
-          <div class="event-time">${isAllDay ? 'All Day' : fmtTime(ev.start?.dateTime)}</div>
-          <div class="event-name">${stripEmoji(ev.summary)}</div>`;
-        col.appendChild(card);
-      });
-    }
-
+async function buildGrid(){
+  const today=sod(new Date());
+  const days=Array.from({length:7},(_,i)=>addD(today,i));
+  const d0=days[0],d6=days[6];
+  document.getElementById('dateRange').textContent=MONTH_NAMES[d0.getMonth()]+' '+d0.getDate()+' – '+MONTH_NAMES[d6.getMonth()]+' '+d6.getDate()+', '+d6.getFullYear();
+  const t1=new Date(d0.getFullYear(),d0.getMonth(),d0.getDate()).toISOString().slice(0,19);
+  const t2=new Date(d6.getFullYear(),d6.getMonth(),d6.getDate()+1).toISOString().slice(0,19);
+  document.getElementById('content').innerHTML='<div class="loading-state">Fetching events…</div>';
+  let all=[];
+  for(const cal of CALS){try{const e=await fetchCal(cal.id,t1,t2);all=all.concat(e.map(x=>({...x,_cal:cal.label})));}catch(e){console.warn(e);}}
+  all=all.filter(e=>!muted(e.summary));
+  const seen=new Set();
+  all=all.filter(e=>{const k=(e.summary||')+'|'+(e.start?.date||e.start?.dateTime?.slice(0,10)||'');if(seen.has(k))return false;seen.add(k);return true;});
+  const grid=document.createElement('div');grid.className='week-grid';
+  days.forEach(day=>{
+    const col=document.createElement('div');col.className='day-col'+(sameD(day,today)?' today':'');
+    col.innerHTML='<div class="day-header"><div class="day-name">'+DAY_NAMES[day.getDay()]+'</div><div class="day-num">'+day.getDate()+'</div></div>';
+    const evs=all.filter(e=>{const raw=e.start?.dateTime||e.start?.date;if(!raw)return false;const d=raw.length===10?new Date(raw+'T00:00:00'):new Date(raw);return sameD(d,day);}).sort((a,b)=>(a.start?.dateTime||a.start?.date||'').localeCompare(b.start?.dateTime||b.start?.date||''));
+    if(!evs.length){col.innerHTML+='<div class="empty">—</div>';}
+    else{evs.forEach(ev=>{const ad=!ev.start?.dateTime;const card=document.createElement('div');card.className=['event-card',ad?'allday':'',ev._cal==='personal'?'personal':'family'].filter(Boolean).join(' ');card.innerHTML='<div class="event-time">'+(ad?'All Day':fmt(ev.start?.dateTime))+'</div><div class="event-name">'+strip(ev.summary)+'</div>';col.appendChild(card);});}
     grid.appendChild(col);
   });
-
-  const content = document.getElementById('content');
-  content.innerHTML = '';
-  content.appendChild(grid);
-
-  // Refreshed timestamp
-  const now = new Date();
-  document.getElementById('refreshedAt').textContent =
-    `Updated ${MONTH_NAMES[now.getMonth()]} ${now.getDate()} · ${fmtTime(now.toISOString())}`;
+  document.getElementById('content').innerHTML='';
+  document.getElementById('content').appendChild(grid);
+  const now=new Date();
+  document.getElementById('refreshedAt').textContent='Updated '+MONTH_NAMES[now.getMonth()]+' '+now.getDate()+' · '+fmt(now.toISOString());
 }
-
-init().catch(err => {
-  document.getElementById('content').innerHTML =
-    `<div class="error-state">Could not load calendar events.<br><small>${err.message || err}</small></div>`;
-  console.error(err);
+function initGsi(){
+  tokenClient=google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:SCOPES,callback:async resp=>{if(resp.error){console.error(resp);showSignIn();return;}accessToken=resp.access_token;await buildGrid();}});
+  tokenClient.requestAccessToken({prompt:''});
+}
+function showSignIn(){
+  document.getElementById('content').innerHTML='<div class="signin-wrap"><div class="signin-label">Connect your calendar to begin</div><button class="signin-btn" id="sib">Sign in with Google</button></div>';
+  document.getElementById('sib').onclick=()=>tokenClient.requestAccessToken({prompt:'consent'});
+}
+window.addEventListener('load',()=>{
+  const chk=setInterval(()=>{if(window.google?.accounts?.oauth2){clearInterval(chk);initGsi();}},100);
+  setTimeout(()=>{if(!window.google?.accounts?.oauth2){clearInterval(chk);document.getElementById('content').innerHTML='<div class="loading-state">Could not load Google sign-in. Refresh to try again.</div>';}},6000);
 });
 </script>
 </body>
